@@ -41,7 +41,7 @@ Endpoints are defined as follows: Click [here](src/routes/get.ts) to view the ex
 
 ## Dynamic Routing
 
-For dynamic segments in your route, name your file with the dynamic part enclosed in square brackets. For example, [postId]-get.ts handles GET requests to /posts/:postId. Take a loot an an example [here](src/routes/example/[dynamic_route]-get.ts)
+For dynamic segments in your route, name your file with the dynamic part enclosed in square brackets. For example, [postId]-get.ts handles GET requests to /posts/:postId. Take a look an an example [here](src/routes/example/[dynamic_route]-get.ts)
 
 # Error interface
 
