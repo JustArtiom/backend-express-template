@@ -1,0 +1,15 @@
+# Run a temporary database for testing
+# DO NOT USE FOR PRODUCTION!!!! BAD IDEAAA!!!
+
+version: "3.8"
+services:
+  postgresql:
+    container_name: postgresql_testing_server
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
