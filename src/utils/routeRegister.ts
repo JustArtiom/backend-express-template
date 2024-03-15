@@ -42,8 +42,8 @@ function routeFilesToObject(reqDir = "./dist/routes") {
 
             const fileroute = path.join(file.path, file.name);
             file.name = file.name.split(".").slice(0, -1).join("."); // Slice the file extension
-            const method = file.name.split("-").pop();
-            const endpoint = file.name.split("-").slice(0, -1).join("-") || "/";
+            const method = file.name.split(".").pop();
+            const endpoint = file.name.split(".").slice(0, -1).join(".") || "/";
             const route = path
                 .join(file.path, endpoint)
                 .replace(reqDir, "")
