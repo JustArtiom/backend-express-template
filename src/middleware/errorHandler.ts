@@ -18,6 +18,7 @@ export const errorHandler = (
             err.add(new ErrorBuilder(1000).build()).return(500)
         );
         logger.warn(
+            " / ",
             `${req?.route?.path} route didnt have a return status code thrown error`
         );
         return;
@@ -49,6 +50,7 @@ export const errorHandler = (
         )
     );
     logger.error(
+        " / ",
         `${req?.route?.path} has encountered an weird uncatched error:`
     );
     console.error(err);

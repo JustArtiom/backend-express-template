@@ -1,46 +1,44 @@
 import chalk from "chalk";
 
-function logWithSymbol(
-    symbol: string,
+function logWithUser(
+    user: string | undefined,
     message: string,
     color: (message: string) => string = (m) => m
 ): void {
     const currentDate = new Date();
     const formattedDate = `${currentDate.toLocaleDateString()} ${currentDate.toLocaleTimeString()}`;
-    const logMessage = `${color(formattedDate + " " + symbol)}  > ${message}`;
+    const logMessage = `${color(
+        `[ ${formattedDate} ] ` + (user ? ` [ ${user} ] ` : "")
+    )}  > ${message}`;
 
     console.log(logMessage);
 }
 
 const logger = {
-    info: (message: string): void => {
-        logWithSymbol(" ⓘ ", message, chalk.blue.bold);
+    info: (...data: string[]) => {
+        if (data.length == 1) return logWithUser(undefined, data[0]);
+        else return logWithUser(data[0], data[1], chalk.blue.bold);
     },
-    error: (message: string): void => {
-        logWithSymbol(" ✖ ", message, chalk.red.bold);
+    success: (...data: string[]) => {
+        if (data.length == 1) return logWithUser(undefined, data[0]);
+        else return logWithUser(data[0], data[1], chalk.green.bold);
     },
-    warn: (message: string): void => {
-        logWithSymbol(" ⚠ ", message, chalk.yellow.bold);
+    warn: (...data: string[]) => {
+        if (data.length == 1) return logWithUser(undefined, data[0]);
+        else return logWithUser(data[0], data[1], chalk.green.yellow);
     },
-    success: (message: string): void => {
-        logWithSymbol(" ✔ ", message, chalk.green.bold);
+    error: (...data: string[]) => {
+        if (data.length == 1) return logWithUser(undefined, data[0]);
+        else return logWithUser(data[0], data[1], chalk.green.red);
     },
-    debug: (message: string): void => {
-        logWithSymbol(" ↺ ", message, chalk.gray.bold);
-    },
-    crit: (message: string): void => {
-        logWithSymbol(" ☢ ", message, chalk.redBright);
-    },
-    user: (
-        who: string,
-        message: string,
-        color?: "green" | "red" | "yellow" | "blue" | "gray" | "redBright"
-    ) => {
-        logWithSymbol(
-            ` [ ${who} ]`,
-            message,
-            color ? chalk[color].bold : undefined
-        );
+
+    symbols: {
+        info: "ⓘ",
+        x: "✖",
+        warning: "⚠",
+        check: "✔",
+        retry: "↺",
+        chernobyl: "☢",
     },
 };
 

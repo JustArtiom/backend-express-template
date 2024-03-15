@@ -6,7 +6,7 @@ import fs from "node:fs";
 
 export function registerRoutes() {
     console.log("");
-    logger.user("API", "Starting registering routes", "blue");
+    logger.info("API", "Starting registering routes");
 
     const app = Router();
     const routes = routeFilesToObject();
@@ -18,7 +18,7 @@ export function registerRoutes() {
         );
     }
 
-    logger.user("API", "Completed registering routes", "green");
+    logger.success("API", "Completed registering routes");
     console.log("");
     return app;
 }
@@ -54,28 +54,25 @@ function routeFilesToObject(reqDir = "./dist/routes") {
                 !method ||
                 !httpMethods.map((x) => x.toLocaleLowerCase()).includes(method)
             ) {
-                logger.user(
+                logger.warn(
                     " / ",
-                    `Skipping ${fileroute} because it doesnt have a valid method`,
-                    "yellow"
+                    `Skipping ${fileroute} because it doesnt have a valid method`
                 );
                 continue;
             }
 
             const module = require(path.join("../", fileroute));
             if (!module?.handler) {
-                logger.user(
+                logger.warn(
                     " / ",
-                    `Skipping ${fileroute} because it doesnt have a handler exported`,
-                    "yellow"
+                    `Skipping ${fileroute} because it doesnt have a handler exported`
                 );
                 continue;
             }
 
-            logger.user(
+            logger.info(
                 " / ",
-                `Registering ${method.toUpperCase()} - ${route}`,
-                "blue"
+                `Registering ${method.toUpperCase()} - ${route}`
             );
 
             endpoints.push({
