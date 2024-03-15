@@ -33,7 +33,7 @@ npm start
 
 # Usage
 
-Your API endpoints are defined within the routes directory. Each file represents a unique endpoint, with the file name indicating the path and method. For example, posts-get.ts would define a GET request handler for the /posts endpoint.
+Your API endpoints are defined within the routes directory. Each file represents a unique endpoint, with the file name indicating the path and method. For example, posts.get.ts would define a GET request handler for the /posts endpoint.
 
 ## Defining Endpoints
 
@@ -41,7 +41,7 @@ Endpoints are defined as follows: Click [here](src/routes/get.ts) to view the ex
 
 ## Dynamic Routing
 
-For dynamic segments in your route, name your file with the dynamic part enclosed in square brackets. For example, [postId]-get.ts handles GET requests to /posts/:postId. Take a look an an example [here](src/routes/example/[dynamic_route]-get.ts)
+For dynamic segments in your route, name your file with the dynamic part enclosed in square brackets. For example, [postId].get.ts handles GET requests to /posts/:postId. Take a look an an example [here](src/routes/example/[dynamic_route].get.ts)
 
 # Error interface
 
@@ -58,7 +58,7 @@ interface APIErrorResponse {
 }
 ```
 
-View [this file](src/routes/example/errors-get.ts) to get a better understanding of how the errors are beeing thrown
+View [this file](src/routes/example/errors.get.ts) to get a better understanding of how the errors are beeing thrown
 
 # Contributing
 
