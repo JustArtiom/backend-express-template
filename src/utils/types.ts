@@ -1,49 +1,42 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
+import Joi from "joi";
 
-export interface OneAPIError {
-    code: string;
-    status: number;
-    message: string;
-}
+export type ParseJoiType<T> =
+    T extends Joi.StringSchema<any>
+        ? string
+        : T extends Joi.NumberSchema<any>
+          ? number
+          : T extends Joi.BooleanSchema<any>
+            ? boolean
+            : T extends Joi.ArraySchema<any>
+              ? any[]
+              : T extends Joi.ObjectSchema<any>
+                ? { [K in keyof T]: ParseJoiType<T[K]> }
+                : never;
 
-export interface APIthrow {
-    code: number;
-    errors: OneAPIError[];
-}
+export type ParseSchema<T> = {
+    [K in keyof T]: T[K] extends Joi.Schema
+        ? ParseJoiType<T[K]>
+        : T[K] extends object
+          ? ParseSchema<T[K]>
+          : T[K];
+};
 
-export interface RouteFile {
-    route: string;
-    method: string;
-    prehandlers: (() => any)[];
-    handler: (() => any)[];
-}
+export type RequestAfterMiddlewares<T extends readonly any[]> =
+    T extends readonly [infer First, ...infer Rest]
+        ? First extends (
+              req: infer Req,
+              res: Response,
+              next: NextFunction
+          ) => void
+            ? Rest extends readonly []
+                ? Req
+                : RequestAfterMiddlewares<Rest> & Req
+            : never
+        : never;
 
-export interface APIHandlerOptions {
-    req?: any;
-    params?: Record<string, any>;
-    body?: any;
-    query?: Record<string, any>;
-    res?: any;
-}
-
-export type APIhandler<T extends APIHandlerOptions = {}> = (
-    req: T["req"] &
-        Request<
-            "params" extends keyof T ? T["params"] : any,
-            any,
-            "body" extends keyof T ? T["body"] : any,
-            "query" extends keyof T ? T["query"] : any
-        >,
-    res: Response<"res" extends keyof T ? T["res"] : any>,
+export type APIHandler<T extends readonly any[] = [], K = unknown> = (
+    req: T extends [] ? Request : RequestAfterMiddlewares<T> & K,
+    res: Response,
     next: NextFunction
 ) => any;
-
-export const httpMethods: string[] = [
-    "GET",
-    "POST",
-    "PUT",
-    "DELETE",
-    "PATCH",
-    "OPTIONS",
-    "HEAD",
-];

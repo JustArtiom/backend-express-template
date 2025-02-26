@@ -1,9 +1,6 @@
-import { APIhandler } from "~/utils/types";
+import { APIHandler } from "~/utils/types";
 
-// This is the route "{prefix}/"
-
-export const handler: APIhandler = async (req, res, throwerr) => {
-    res.status(200).json({
-        message: "Hello world",
-    });
+// Export the handler
+export const handler: APIHandler = (req, res, next) => {
+    res.send({ message: "Hello world" });
 };
